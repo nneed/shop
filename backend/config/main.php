@@ -11,19 +11,38 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'aliases' => [
+        '@staticRoot' => $params['staticPath'],
+        '@static'   => $params['staticHostInfo'],
+    ],
     'modules' => [],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'cookieValidationKey' => $params['cookieValidationKey'],
         ],
+//        'user' => [
+//            'identityClass' => 'common\models\User',
+//            'enableAutoLogin' => true,
+//            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+//        ],
         'user' => [
+           // 'identityClass' => 'common\auth\Identity',
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'identityCookie' => [
+                'name' => '_identity',
+                'httpOnly' => true,
+                'domain' => $params['cookieDomain'],
+            ],
+           // 'loginUrl' => ['auth/login'],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
+            'name' => '_session',
+            'cookieParams' => [
+                'domain' => $params['cookieDomain'],
+                'httpOnly' => true,
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

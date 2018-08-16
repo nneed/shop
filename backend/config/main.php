@@ -61,6 +61,7 @@ return [
         'urlManager' => function () {
             return Yii::$app->get('backendUrlManager');
         },
+
     ],
     'params' => $params,
 ];

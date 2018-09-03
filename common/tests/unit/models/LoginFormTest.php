@@ -3,7 +3,7 @@
 namespace common\tests\unit\models;
 
 use Yii;
-use common\models\LoginForm;
+use common\forms\LoginForm;
 use common\fixtures\UserFixture;
 
 /**
@@ -36,8 +36,8 @@ class LoginFormTest extends \Codeception\Test\Unit
             'username' => 'not_existing_username',
             'password' => 'not_existing_password',
         ]);
-
         expect('model should not login user', $model->login())->false();
+
         expect('user should not be logged in', Yii::$app->user->isGuest)->true();
     }
 

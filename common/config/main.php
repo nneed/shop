@@ -5,7 +5,7 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'bootstrap' => 'common\bootstrap\SetUP',
+//    'bootstrap' => 'common\bootstrap\SetUP',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\MemCache',

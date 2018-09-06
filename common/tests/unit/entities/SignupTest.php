@@ -10,7 +10,7 @@ class SignupTest extends Unit
 {
     public function testSuccess()
     {
-        $user = new User(
+        $user = User::signUp(
             $username = 'username',
             $email = 'email@site.com',
             $password = 'password'
@@ -22,7 +22,7 @@ class SignupTest extends Unit
         $this->assertNotEquals($password, $user->password_hash);
         $this->assertNotEmpty($user->created_at);
         $this->assertNotEmpty($user->auth_key);
-        $this->assertFalse($user->isActive());
-        $this->assertTrue($user->isWait());
+        $this->assertTrue($user->isActive());
+    //    $this->assertTrue($user->isWait());
     }
 }

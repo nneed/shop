@@ -22,13 +22,13 @@ return [
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
 //        'user' => [
-//            'identityClass' => 'common\models\User',
+//            'identityClass' => 'common\entities\User',
 //            'enableAutoLogin' => true,
 //            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
 //        ],
         'user' => [
            // 'identityClass' => 'common\auth\Identity',
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\entities\User',
             'enableAutoLogin' => true,
             'identityCookie' => [
                 'name' => '_identity',

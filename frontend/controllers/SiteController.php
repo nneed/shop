@@ -154,7 +154,7 @@ class SiteController extends Controller
         $form = new SignupForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try{
-                $user = new SignUpService($form);
+                $user = (new SignUpService())->sighUp($form);
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }

@@ -12,6 +12,7 @@ namespace frontend\services\auth;
 use common\entities\User;
 use frontend\forms\PasswordResetRequestForm;
 use frontend\forms\ResetPasswordForm;
+use \Yii;
 
 class PasswordResetService
 {
@@ -39,7 +40,7 @@ class PasswordResetService
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user]
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
             ->setTo($form->email)
             ->setSubject('Password reset for ' . Yii::$app->name)
             ->send();

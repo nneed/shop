@@ -6,7 +6,7 @@
  * Time: 16:30
  */
 
-namespace services\auth;
+namespace frontend\services\auth;
 
 
 use common\entities\User;
@@ -20,7 +20,7 @@ class PasswordResetService
         /* @var $user User */
         $user = User::findOne([
             'status' => User::STATUS_ACTIVE,
-            'email' => $this->email,
+            'email' => $form->email,
         ]);
 
         if (!$user) {
@@ -40,7 +40,7 @@ class PasswordResetService
                 ['user' => $user]
             )
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
+            ->setTo($form->email)
             ->setSubject('Password reset for ' . Yii::$app->name)
             ->send();
 

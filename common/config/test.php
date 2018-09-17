@@ -8,7 +8,7 @@ return [
             'identityClass' => 'common\entities\User',
         ],
         'request' => [
-            'cookieValidationKey' => null,
+            'cookieValidationKey' => 'test',
         ],
     ],
 ];

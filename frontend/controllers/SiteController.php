@@ -24,11 +24,13 @@ class SiteController extends Controller
 {
     private $passwordResetService;
     private $contactService;
+    private $signupService;
 
-    public function __construct($id, Module $module, PasswordResetService $passwordResetService, ContactService $contactService, array $config = [])
+    public function __construct($id, Module $module, PasswordResetService $passwordResetService, ContactService $contactService, SignUpService $signupService, array $config = [])
     {
         $this->passwordResetService = $passwordResetService;
         $this->contactService = $contactService;
+        $this->signupService = $signupService;
         parent::__construct($id, $module, $config);
     }
 
@@ -171,14 +173,13 @@ class SiteController extends Controller
         $form = new SignupForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try{
-                $user = (new SignUpService())->sighUp($form);
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+                $this->signupService->signup($form);
+                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+                return $this->goHome();
             }catch (\DomainException $e){
+                Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
-
         }
 
         return $this->render('signup', [
@@ -187,14 +188,29 @@ class SiteController extends Controller
     }
 
     /**
+     * @return string|\yii\web\Response
+     */
+    public function actionConfirm($token)
+    {
+        try{
+            $user = $this->signupService->confirm($token);
+            Yii::$app->session->setFlash('success', 'Your email is confirmed.');
+            return $this->redirect(['login']);
+        }catch (\DomainException $e){
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->goHome();
+        }
+    }
+
+
+    /**
      * Requests password reset.
      *
      * @return mixed
      */
     public function actionRequestPasswordReset()
     {
-
-
         $form = new PasswordResetRequestForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
 
@@ -203,6 +219,7 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
                 return $this->goHome();
             }catch (\Exception $e){
+                Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
@@ -230,7 +247,7 @@ class SiteController extends Controller
         $form = new ResetPasswordForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try{
-                $this->passwordResetServicereset($token,$form);
+                $this->passwordResetService->reset($token,$form);
                 Yii::$app->session->setFlash('success', 'New password saved.');
                 return $this->goHome();
             }catch (\DomainException $e){

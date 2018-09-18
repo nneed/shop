@@ -30,11 +30,12 @@ class SignupTest extends \Codeception\Test\Unit
             'email' => 'some_email@example.com1',
             'password' => 'some_password',
         ]);
-
-        if ($form->validate()) {
-            $user = (new SignUpService())->sighUp($form);
-            $this->assertTrue(\Yii::$app->getUser()->login($user));
-        }
+//
+//        if ($form->validate()) {
+//            $user = (new SignUpService())->signup($form);
+//            $this->assertTrue(\Yii::$app->getUser()->login($user));
+//        }
+        expect_that($form->validate());
 
     }
 

@@ -24,18 +24,20 @@ class SetUp implements BootstrapInterface
 //        $container->setSingleton(PasswordResetService::class, function () use ($app){
 //            return new PasswordResetService([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot']);
 //        });
+
         $container->setSingleton(MailerInterface::class, function () use ($app) {
-
+            return $app->mailer; // так происходит вызов при загрузке
         });
-
-        $container->setSingleton(PasswordResetService::class, [], [
-
-        ]);
+            //так можно не указывать зависимости Yii сам поймет какие нужны классы через конструктор.
+        // Вывызов $app->mailer произойдет в момент в момент обращения, а не при регистраиции
+//        $container->setSingleton(PasswordResetService::class, [], [
+//          $app->mailer
+//        ]);
         $container->setSingleton(ContactService::class, [], [
             $app->params['adminEmail'],
         ]);
-        $container->setSingleton(SignUpService::class, [], [
-
-        ]);
+//        $container->setSingleton(SignUpService::class, [], [
+//            $app->mailer
+//        ]);
     }
 }

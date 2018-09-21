@@ -24,13 +24,13 @@ return [
             'cookieValidationKey' => $params['cookieValidationKey'],
         ],
 //        'user' => [
-//            'identityClass' => 'common\entities\User',
+//            'identityClass' => 'shop\entities\User\User',
 //            'enableAutoLogin' => true,
 //            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
 //        ],
         'user' => [
         //    'identityClass' => 'common\auth\Identity',
-            'identityClass' => 'common\entities\User',
+            'identityClass' => 'shop\entities\User\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity', 'httpOnly' => true, 'domain' => $params['cookieDomain']],
           //  'loginUrl' => ['auth/auth/login'],

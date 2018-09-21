@@ -8,9 +8,9 @@
 
 namespace common\bootstrap;
 
-use frontend\services\auth\PasswordResetService;
-use frontend\services\auth\SignUpService;
-use frontend\services\contact\ContactService;
+use shop\services\auth\PasswordResetService;
+use shop\services\auth\SignUpService;
+use shop\services\contact\ContactService;
 use yii\base\BootstrapInterface;
 use yii\mail\MailerInterface;
 use yii;

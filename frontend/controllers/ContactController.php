@@ -16,9 +16,10 @@ use shop\forms\ContactForm;
 
 class ContactController extends Controller
 {
-    public function __construct($id, Module $module,ContactService $contactService,array $config = [])
+    protected $service;
+    public function __construct($id, Module $module,ContactService $service,array $config = [])
     {
-        $this->contactService = $contactService;
+        $this->service = $service;
         parent::__construct($id, $module, $config);
     }
 
@@ -27,12 +28,12 @@ class ContactController extends Controller
      *
      * @return mixed
      */
-    public function actionContact()
+    public function actionIndex()
     {
         $form = new ContactForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try{
-                $this->contactService->sendEmail($form);
+                $this->service->sendEmail($form);
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
                 return $this->goHome();
             }
@@ -43,7 +44,7 @@ class ContactController extends Controller
             return $this->refresh();
         }
 
-        return $this->render('contact', [
+        return $this->render('index', [
             'model' => $form,
         ]);
 

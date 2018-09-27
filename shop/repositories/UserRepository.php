@@ -17,6 +17,11 @@ class UserRepository
         return $this->getBy(['email_confirm_token' => $token]);
     }
 
+    public function findByNetworkIdentity($network, $identity): ?User
+    {
+        return User::find()->joinWith('networks n')->andWhere(['n.network' => $network, 'n.identity' => $identity])->one();
+    }
+
     public function getByEmail($email): User
     {
         return $this->getBy(['email' => $email]);

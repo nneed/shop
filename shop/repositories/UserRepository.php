@@ -22,6 +22,11 @@ class UserRepository
         return User::find()->joinWith('networks n')->andWhere(['n.network' => $network, 'n.identity' => $identity])->one();
     }
 
+    public function get($id): User
+    {
+        return $this->getBy(['id' => $id]);
+    }
+
     public function getByEmail($email): User
     {
         return $this->getBy(['email' => $email]);

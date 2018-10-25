@@ -51,7 +51,7 @@ class ResetController extends Controller
             }
         }
 
-        return $this->render('requestPasswordResetToken', [
+        return $this->render('request', [
             'model' => $form,
         ]);
     }
@@ -83,7 +83,7 @@ class ResetController extends Controller
             }
         }
 
-        return $this->render('resetPassword', [
+        return $this->render('confirm', [
             'model' => $form,
         ]);
     }

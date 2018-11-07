@@ -68,8 +68,8 @@ class Category extends ActiveRecord
     public function behaviors(): array
     {
         return [
-            MetaBehavior::className(),
-            NestedSetsBehavior::className(),
+            MetaBehavior::class(),
+            NestedSetsBehavior::class(),
         ];
     }
 

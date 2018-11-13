@@ -2,7 +2,6 @@
 
 namespace shop\entities\Shop\Product;
 
-use shop\entities\EventTrait;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use shop\entities\AggregateRoot;
 use shop\entities\behaviors\MetaBehavior;

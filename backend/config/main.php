@@ -35,7 +35,7 @@ return [
                 'httpOnly' => true,
                 'domain' => $params['cookieDomain'],
             ],
-           // 'loginUrl' => ['auth/login'],
+            'loginUrl' => ['auth/login'],
         ],
         'session' => [
             'name' => '_session',
@@ -62,6 +62,18 @@ return [
             return Yii::$app->get('backendUrlManager');
         },
 
+
+    ],
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'except' => ['auth/login', 'site/error'],
+        'rules' => [
+            [
+                'allow' => true,
+                //'roles' => ['admin'],
+
+            ],
+        ],
     ],
     'params' => $params,
 ];

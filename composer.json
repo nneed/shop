@@ -27,7 +27,8 @@
         "kartik-v/yii2-field-range": "*",
         "paulzi/yii2-nested-sets": "^1.1",
         "mihaildev/yii2-ckeditor": "*",
-        "yii-dream-team/yii2-upload-behavior": "*"
+        "yii-dream-team/yii2-upload-behavior": "*",
+        "filsh/yii2-oauth2-server": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

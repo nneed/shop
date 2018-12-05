@@ -47,9 +47,9 @@ use yii\web\UploadedFile;
  * @property Photo $mainPhoto
  * @property Review[] $reviews
  */
-class Product extends ActiveRecord implements AggregateRoot
+class Product extends ActiveRecord/* implements AggregateRoot*/
 {
-    use EventTrait;
+  //  use EventTrait;
 
     const STATUS_DRAFT = 0;
     const STATUS_ACTIVE = 1;

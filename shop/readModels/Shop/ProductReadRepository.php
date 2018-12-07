@@ -2,7 +2,7 @@
 
 namespace shop\readModels\Shop;
 
-use Elasticsearch\Client;
+//use Elasticsearch\Client;
 use shop\entities\Shop\Brand;
 use shop\entities\Shop\Category;
 use shop\entities\Shop\Product\Product;
@@ -21,10 +21,10 @@ class ProductReadRepository
 {
     private $client;
 
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
+//    public function __construct(Client $client)
+//    {
+//        $this->client = $client;
+//    }
 
     public function count(): int
     {

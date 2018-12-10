@@ -28,7 +28,11 @@
         "paulzi/yii2-nested-sets": "^1.1",
         "mihaildev/yii2-ckeditor": "*",
         "yii-dream-team/yii2-upload-behavior": "*",
-        "filsh/yii2-oauth2-server": "*"
+        "filsh/yii2-oauth2-server": "*",
+        "bower-asset/font-awesome": "^4.7",
+        "bower-asset/owl.carousel": "^2.2",
+        "bower-asset/magnific-popup": "^1.1",
+        "elasticsearch/elasticsearch": "^5.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -8,12 +8,17 @@
 
 namespace common\bootstrap;
 
+use frontend\urls\CategoryUrlRule;
+use shop\readModels\Shop\CategoryReadRepository;
 use shop\services\auth\PasswordResetService;
 use shop\services\auth\SignUpService;
 use shop\services\contact\ContactService;
 use yii\base\BootstrapInterface;
 use yii\mail\MailerInterface;
+use yii\caching\Cache;
 use yii;
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 
 class SetUp implements BootstrapInterface
 {
@@ -38,6 +43,20 @@ class SetUp implements BootstrapInterface
         ]);
 //        $container->setSingleton(SignUpService::class, [], [
 //            $app->mailer
+//        ]);
+
+        $container->setSingleton(yii\caching\Cache::class, function () use ($app) {
+            return $app->cache;
+        });
+
+        $container->setSingleton(Client::class, function () {
+            return ClientBuilder::create()->build();
+        });
+
+
+//        $container->set(CategoryUrlRule::class,[],[
+//            yii\di\Instance::of(CategoryReadRepository::class),
+//            yii\di\Instance::of('cache'),
 //        ]);
     }
 }

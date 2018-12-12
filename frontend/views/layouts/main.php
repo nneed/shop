@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use \yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -35,6 +36,7 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
@@ -60,7 +62,32 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div id="logo">
+                        <a href="<?= Url::home() ?>"><img
+                                src="<?= Yii::getAlias('@web/image/logo.png') ?>" title="Your Store" alt="Your Store"
+                                class="img-responsive"/></a>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <?= Html::beginForm(['/shop/catalog/search'], 'get') ?>
+                    <div id="search" class="input-group">
+                        <input type="text" name="text" value="" placeholder="Search" class="form-control input-lg"/>
+                        <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
+                    </span>
+                    </div>
+                    <?= Html::endForm() ?>
+                </div>
+                <div class="col-sm-3">
+                    <?/*=// CartWidget::widget() */?>
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

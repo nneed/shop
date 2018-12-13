@@ -9,6 +9,11 @@
 namespace common\bootstrap;
 
 use frontend\urls\CategoryUrlRule;
+use shop\cart\Cart;
+use shop\cart\cost\calculator\DynamicCost;
+use shop\cart\cost\calculator\SimpleCost;
+use shop\cart\storage\HybridStorage;
+use shop\cart\storage\SessionStorage;
 use shop\readModels\Shop\CategoryReadRepository;
 use shop\services\auth\PasswordResetService;
 use shop\services\auth\SignUpService;
@@ -51,6 +56,13 @@ class SetUp implements BootstrapInterface
 
         $container->setSingleton(Client::class, function () {
             return ClientBuilder::create()->build();
+        });
+
+        $container->setSingleton(Cart::class, function () use ($app) {
+            return new Cart(
+                new SessionStorage('cart', $app->session),
+                new DynamicCost(new SimpleCost())
+            );
         });
 
 

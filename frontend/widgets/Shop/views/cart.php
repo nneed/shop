@@ -16,29 +16,29 @@ use yii\helpers\Url;
         <li>
             <table class="table table-striped">
                 <?php foreach ($cart->getItems() as $item): ?>
-                <?php
-                $product = $item->getProduct();
-                $modification = $item->getModification();
-                $url = Url::to(['/shop/catalog/product', 'id' => $product->id]);
-                ?>
-                <tr>
-                    <td class="text-center">
-                        <?php if ($product->mainPhoto): ?>
-                            <img src="<?= $product->mainPhoto->getThumbFileUrl('file', 'cart_widget_list') ?>" alt="" class="img-thumbnail" />
-                        <?php endif; ?>
-                    </td>
-                    <td class="text-left">
-                        <a href="<?= $url ?>"><?= Html::encode($product->name) ?></a>
-                        <?php if ($modification): ?>
-                            <br/><small><?= Html::encode($modification->name) ?></small>
-                        <?php endif; ?>
-                    </td>
-                    <td class="text-right">x <?= $item->getQuantity() ?></td>
-                    <td class="text-right"><?= PriceHelper::format($item->getCost()) ?></td>
-                    <td class="text-center">
-                        <a href="<?= Url::to(['/shop/cart/remove', 'id' => $item->getId()]) ?>" title="Remove" class="btn btn-danger btn-xs" data-method="post"><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>
+                    <?php
+                    $product = $item->getProduct();
+                    $modification = $item->getModification();
+                    $url = Url::to(['/shop/catalog/product', 'id' => $product->id]);
+                    ?>
+                    <tr>
+                        <td class="text-center">
+                            <?php if ($product->mainPhoto): ?>
+                                <img src="<?= $product->mainPhoto->getThumbFileUrl('file', 'cart_widget_list') ?>" alt="" class="img-thumbnail" />
+                            <?php endif; ?>
+                        </td>
+                        <td class="text-left">
+                            <a href="<?= $url ?>"><?= Html::encode($product->name) ?></a>
+                            <?php if ($modification): ?>
+                                <br/><small><?= Html::encode($modification->name) ?></small>
+                            <?php endif; ?>
+                        </td>
+                        <td class="text-right">x <?= $item->getQuantity() ?></td>
+                        <td class="text-right"><?= PriceHelper::format($item->getCost()) ?></td>
+                        <td class="text-center">
+                            <a href="<?= Url::to(['/shop/cart/remove', 'id' => $item->getId()]) ?>" title="Remove" class="btn btn-danger btn-xs" data-method="post"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
                 <?php endforeach ?>
             </table>
         </li>

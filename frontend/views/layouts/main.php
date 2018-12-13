@@ -100,10 +100,7 @@ AppAsset::register($this);
         <div class="row">
             <div class="col-sm-4">
                 <div id="logo">
-                    <a href="<?= Url::home() ?>">
-                        LOGO
-<!--                        <img src="--><?//= Yii::getAlias('@web/image/logo.png') ?><!--" title="Your Store" alt="Your Store" class="img-responsive"/>-->
-                    </a>
+                    <a href="<?= Url::home() ?>">logo</a>
                 </div>
             </div>
             <div class="col-sm-5">
@@ -117,7 +114,7 @@ AppAsset::register($this);
                 <?= Html::endForm() ?>
             </div>
             <div class="col-sm-3">
-<!--                --><?//= CartWidget::widget() ?>
+                <?= CartWidget::widget() ?>
             </div>
         </div>
     </div>

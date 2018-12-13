@@ -4,7 +4,7 @@ namespace frontend\controllers\shop;
 
 use shop\forms\Shop\AddToCartForm;
 use shop\readModels\Shop\ProductReadRepository;
-use shop\useCases\Shop\CartService;
+use shop\services\shop\CartService;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;

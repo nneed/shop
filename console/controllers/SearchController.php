@@ -2,6 +2,7 @@
 
 namespace console\controllers;
 
+use Elasticsearch\Common\Exceptions\Missing404Exception;
 use shop\entities\Shop\Product\Product;
 use shop\services\search\ProductIndexer;
 use yii\console\Controller;
@@ -24,8 +25,12 @@ class SearchController extends Controller
             ->orderBy('id');
 
         $this->stdout('Clearing' . PHP_EOL);
+        try{
+            $this->indexer->clear();
+        }catch (Missing404Exception $e){
+            $this->stdout('is empty' . PHP_EOL);
+        }
 
-        $this->indexer->clear();
 
         $this->stdout('Indexing of products' . PHP_EOL);
 

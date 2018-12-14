@@ -50,7 +50,7 @@ class SetUp implements BootstrapInterface
 //            $app->mailer
 //        ]);
 
-        $container->setSingleton(yii\caching\Cache::class, function () use ($app) {
+        $container->setSingleton(Cache::class, function () use ($app) {
             return $app->cache;
         });
 
@@ -68,7 +68,7 @@ class SetUp implements BootstrapInterface
 
 //        $container->set(CategoryUrlRule::class,[],[
 //            yii\di\Instance::of(CategoryReadRepository::class),
-//            yii\di\Instance::of('cache'),
+//            yii\di\Instance::of(yii\caching\Cache::class),
 //        ]);
     }
 }

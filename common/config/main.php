@@ -8,8 +8,8 @@ return [
 //    'bootstrap' => 'common\bootstrap\SetUP',
     'components' => [
         'cache' => [
-            'class' => 'yii\caching\MemCache',
-            'useMemcached' => false
+            'class' => 'yii\caching\FileCache',
+            'cachePath' => '@common/runtime/cache',
         ],
     ],
 ];

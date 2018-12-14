@@ -29,9 +29,9 @@ return [
 //        'blog/<id:\d+>/comment' => 'blog/post/comment',
 //        'blog/<slug:[\w\-]+>' => 'blog/post/category',
 //
+        ['class' => 'frontend\urls\CategoryUrlRule'],
         'catalog' => 'shop/catalog/index',
         'catalog/<id:\d+>' => 'shop/catalog/product',
-        ['class' => 'frontend\urls\CategoryUrlRule'],
 //
         'cabinet' => 'cabinet/default/index',
         'cabinet/<_c:[\w\-]+>' => 'cabinet/<_c>/index',

@@ -4,7 +4,7 @@ namespace frontend\controllers\shop;
 
 use shop\cart\Cart;
 use shop\forms\Shop\Order\OrderForm;
-use shop\useCases\Shop\OrderService;
+use shop\services\Shop\OrderService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;

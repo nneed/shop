@@ -27,6 +27,7 @@
         "kartik-v/yii2-field-range": "*",
         "paulzi/yii2-nested-sets": "^1.1",
         "mihaildev/yii2-ckeditor": "*",
+        "mihaildev/yii2-elfinder": "^1.2",
         "yii-dream-team/yii2-upload-behavior": "*",
         "filsh/yii2-oauth2-server": "*",
         "bower-asset/font-awesome": "^4.7",

@@ -12,7 +12,7 @@ class UserEditForm extends Model
     public $username;
     public $email;
 //    public $phone;
-//    public $role;
+    public $role;
 
     public $_user;
 
@@ -21,8 +21,8 @@ class UserEditForm extends Model
         $this->username = $user->username;
         $this->email = $user->email;
       //  $this->phone = $user->phone;
-     //   $roles = Yii::$app->authManager->getRolesByUser($user->id);
-      //  $this->role = $roles ? reset($roles)->name : null;
+        $roles = Yii::$app->authManager->getRolesByUser($user->id);
+        $this->role = $roles ? reset($roles)->name : null;
         $this->_user = $user;
         parent::__construct($config);
     }

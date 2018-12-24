@@ -7,8 +7,8 @@ use shop\forms\manage\User\UserCreateForm;
 use shop\forms\manage\User\UserEditForm;
 use shop\repositories\UserRepository;
 //use shop\services\newsletter\Newsletter;
-//use shop\services\RoleManager;
-//use shop\services\TransactionManager;
+use shop\services\RoleManager;
+use shop\services\TransactionManager;
 
 class UserManageService
 {
@@ -21,15 +21,15 @@ class UserManageService
     private $newsletter;
 
     public function __construct(
-        UserRepository $repository
-//        RoleManager $roles,
-//        TransactionManager $transaction,
+        UserRepository $repository,
+        RoleManager $roles,
+        TransactionManager $transaction
 //        Newsletter $newsletter
     )
     {
         $this->repository = $repository;
-//        $this->roles = $roles;
-//        $this->transaction = $transaction;
+        $this->roles = $roles;
+        $this->transaction = $transaction;
 //        $this->newsletter = $newsletter;
     }
 
@@ -41,11 +41,11 @@ class UserManageService
 //            $form->phone,
             $form->password
         );
-//        $this->transaction->wrap(function () use ($user, $form) {
+        $this->transaction->wrap(function () use ($user, $form) {
             $this->repository->save($user);
-//            $this->roles->assign($user->id, $form->role);
-//            $this->newsletter->subscribe($user->email);
-//        });
+            $this->roles->assign($user->id, $form->role);
+   //         $this->newsletter->subscribe($user->email);
+        });
         return $user;
     }
 
@@ -57,10 +57,10 @@ class UserManageService
             $form->email/*,
             $form->phone*/
         );
-//        $this->transaction->wrap(function () use ($user, $form) {
+        $this->transaction->wrap(function () use ($user, $form) {
             $this->repository->save($user);
-//            $this->roles->assign($user->id, $form->role);
-//        });
+            $this->roles->assign($user->id, $form->role);
+        });
     }
 
     public function assignRole($id, $role): void

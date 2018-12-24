@@ -24,6 +24,7 @@ use yii\caching\Cache;
 use yii;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use yii\rbac\ManagerInterface;
 
 class SetUp implements BootstrapInterface
 {
@@ -34,6 +35,10 @@ class SetUp implements BootstrapInterface
 //        $container->setSingleton(PasswordResetService::class, function () use ($app){
 //            return new PasswordResetService([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot']);
 //        });
+
+        $container->setSingleton(ManagerInterface::class, function () use ($app) {
+            return $app->authManager;
+        });
 
         $container->setSingleton(MailerInterface::class, function () use ($app) {
             return $app->mailer; // так происходит вызов при загрузке

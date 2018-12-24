@@ -12,7 +12,7 @@ class UserCreateForm extends Model
     public $email;
 //    public $phone;
     public $password;
-//    public $role;
+    public $role;
 
     public function rules(): array
     {

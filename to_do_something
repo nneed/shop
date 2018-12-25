@@ -1,1 +1,3 @@
 C:\PHP7.1OPEN_SEVER\OSPanel\domains\shop\vendor\bin\codecept run -- -c shop unit
+docker-compose up
+

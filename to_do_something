@@ -1,3 +1,15 @@
 C:\PHP7.1OPEN_SEVER\OSPanel\domains\shop\vendor\bin\codecept run -- -c shop unit
-docker-compose up
+'http://127.0.0.1:8080/index-test.php' #for testing api
+php -S 127.0.0.1:8080 -t api/web
 
+/oauth2/token   POST
+Accept:application/json
+Content-Type:application/json; charset=UTF-8
+
+{"grant_type": "password","username" :"need","password" :"paramatma", "client_id" :"testclient","client_secret" :"testpass"}
+
+/shop/cart  GET
+Accept:application/json
+Content-Type:application/json; charset=UTF-8
+Authentication:Bearer
+accessToken:93ea9ff04c40906d8447dcf8bcfcd0efeddc1aa4

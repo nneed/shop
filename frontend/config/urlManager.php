@@ -17,7 +17,7 @@ return [
         '<_a:login|logout>' => 'auth/auth/<_a>',
 
 
-//        ['pattern' => 'yandex-market', 'route' => 'market/index', 'suffix' => '.xml'],
+        ['pattern' => 'yandex-market', 'route' => 'market/index', 'suffix' => '.xml'],
 //
 //        ['pattern' => 'sitemap', 'route' => 'sitemap/index', 'suffix' => '.xml'],
 //        ['pattern' => 'sitemap-<target:[a-z-]+>-<start:\d+>', 'route' => 'sitemap/<target>', 'suffix' => '.xml'],

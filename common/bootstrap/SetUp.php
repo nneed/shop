@@ -15,13 +15,15 @@ use shop\cart\cost\calculator\SimpleCost;
 use shop\cart\storage\HybridStorage;
 use shop\cart\storage\SessionStorage;
 use shop\readModels\Shop\CategoryReadRepository;
-use shop\services\auth\PasswordResetService;
-use shop\services\auth\SignUpService;
-use shop\services\contact\ContactService;
+use shop\useCases\auth\PasswordResetService;
+use shop\useCases\auth\SignUpService;
+use shop\useCases\ContactService;
 use yii\base\BootstrapInterface;
 use yii\mail\MailerInterface;
 use yii\caching\Cache;
 use yii;
+use shop\services\yandex\ShopInfo;
+use shop\services\yandex\YandexMarket;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use yii\rbac\ManagerInterface;
@@ -69,6 +71,10 @@ class SetUp implements BootstrapInterface
                 new DynamicCost(new SimpleCost())
             );
         });
+
+        $container->setSingleton(YandexMarket::class, [], [
+            new ShopInfo($app->name, $app->name, $app->params['frontendHostInfo']),
+        ]);
 
 
 //        $container->set(CategoryUrlRule::class,[],[

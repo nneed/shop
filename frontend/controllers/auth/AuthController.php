@@ -12,7 +12,7 @@ use Yii;
 use yii\base\Module;
 use yii\web\Controller;
 use shop\forms\auth\LoginForm;
-use shop\services\auth\AuthService;
+use shop\useCases\auth\AuthService;
 
 class AuthController extends Controller
 {

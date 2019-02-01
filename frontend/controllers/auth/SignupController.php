@@ -13,7 +13,7 @@ use yii\base\Module;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use shop\forms\auth\SignupForm;
-use shop\services\auth\SignUpService;
+use shop\useCases\auth\SignUpService;
 
 class SignupController extends Controller
 {

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: НЮКазанков
- * Date: 12.09.2018
- * Time: 16:43
- */
 
-namespace shop\services\contact;
-
+namespace shop\useCases;
 
 use shop\forms\ContactForm;
 use yii\mail\MailerInterface;
@@ -23,13 +16,7 @@ class ContactService
         $this->mailer = $mailer;
     }
 
-    /**
-     * Sends an email to the specified email address using the information collected by this model.
-     *
-     * @param string $email the target email address
-     * @return bool whether the email was sent
-     */
-    public function sendEmail(ContactForm $form)
+    public function send(ContactForm $form): void
     {
         $sent = $this->mailer->compose()
             ->setTo($this->adminEmail)
@@ -37,7 +24,7 @@ class ContactService
             ->setTextBody($form->body)
             ->send();
 
-        if (!$sent){
+        if (!$sent) {
             throw new \RuntimeException('Sending error.');
         }
     }

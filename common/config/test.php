@@ -5,11 +5,8 @@ return [
     'components' => [
         'user' => [
             'class' => 'yii\web\User',
-            'identityClass' => 'shop\entities\User\User',
+            'identityClass' => 'common\auth\Identity',
             'identityCookie' => new \yii\helpers\ReplaceArrayValue(['name' => '_identity', 'httpOnly' => true]),
-        ],
-        'request' => [
-            'cookieValidationKey' => 'test',
         ],
     ],
 ];

@@ -1,9 +1,9 @@
 # global codeception file to run tests from all apps
 include:
-    - common
+    - shop
     - frontend
     - backend
-    - shop
+    - api
 paths:
     log: console/runtime/logs
 settings:

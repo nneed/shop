@@ -30,6 +30,7 @@
         "mihaildev/yii2-elfinder": "^1.2",
         "yii-dream-team/yii2-upload-behavior": "*",
         "filsh/yii2-oauth2-server": "*",
+        "guzzlehttp/guzzle": "^6.2",
         "bower-asset/font-awesome": "^4.7",
         "bower-asset/owl.carousel": "^2.2",
         "bower-asset/magnific-popup": "^1.1",
@@ -43,7 +44,9 @@
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
         "codeception/base": "^2.2.3",
-        "codeception/verify": "~0.3.1"
+        "codeception/verify": "~0.3.1",
+        "flow/jsonpath": "^0.3.4",
+        "zircote/swagger-php": "^2.0"
     },
     "config": {
         "process-timeout": 1800,

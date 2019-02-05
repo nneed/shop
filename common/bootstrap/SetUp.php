@@ -17,7 +17,11 @@ use shop\cart\storage\SessionStorage;
 use shop\dispatchers\DeferredEventDispatcher;
 use shop\dispatchers\SimpleEventDispatcher;
 use shop\jobs\AsyncEventJobHandler;
+use shop\listeners\Shop\Category\CategoryPersistenceListener;
+use shop\listeners\Shop\Product\ProductSearchPersistListener;
+use shop\listeners\Shop\Product\ProductSearchRemoveListener;
 use shop\readModels\Shop\CategoryReadRepository;
+use shop\repositories\events\EntityPersisted;
 use shop\useCases\auth\PasswordResetService;
 use shop\useCases\auth\SignUpService;
 use shop\useCases\ContactService;
@@ -116,7 +120,7 @@ class SetUp implements BootstrapInterface
         });
 
         $container->setSingleton(AsyncEventJobHandler::class, [], [
-            Instance::of(SimpleEventDispatcher::class)
+            yii\di\Instance::of(SimpleEventDispatcher::class)
         ]);
 //        $container->set(CategoryUrlRule::class,[],[
 //            yii\di\Instance::of(CategoryReadRepository::class),

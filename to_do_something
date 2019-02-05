@@ -13,3 +13,6 @@ Accept:application/json
 Content-Type:application/json; charset=UTF-8
 Authentication:Bearer
 accessToken:93ea9ff04c40906d8447dcf8bcfcd0efeddc1aa4
+
+
+docker-compose up

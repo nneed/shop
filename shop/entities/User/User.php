@@ -1,14 +1,15 @@
 <?php
-
 namespace shop\entities\User;
 
-use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\db\ActiveQuery;
-use yii\web\IdentityInterface;
+use shop\entities\EventTrait;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use shop\entities\AggregateRoot;
+use shop\entities\User\events\UserSignUpConfirmed;
+use shop\entities\User\events\UserSignUpRequested;
+use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * User model
@@ -29,20 +30,19 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
  * @property Network[] $networks
  * @property WishlistItem[] $wishlistItems
  */
-
-class User extends ActiveRecord implements IdentityInterface
+class User extends ActiveRecord implements AggregateRoot
 {
+    use EventTrait;
 
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
 
-
-    public static function create(string $username, string $email, string $password): self
+    public static function create(string $username, string $email, string $phone, string $password): self
     {
         $user = new User();
         $user->username = $username;
         $user->email = $email;
-//        $user->phone = $phone;
+        $user->phone = $phone;
         $user->setPassword(!empty($password) ? $password : Yii::$app->security->generateRandomString());
         $user->created_at = time();
         $user->status = self::STATUS_ACTIVE;
@@ -50,42 +50,45 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
-    public function edit(string $username, string $email): void
+    public function edit(string $username, string $email, string $phone): void
     {
         $this->username = $username;
         $this->email = $email;
-     //   $this->phone = $phone;
+        $this->phone = $phone;
         $this->updated_at = time();
     }
 
-    public static function requestSignup(string $username, string $email, string $password) : self
+    public function editProfile(string $email, string $phone): void
     {
-        $user = new static();
+        $this->email = $email;
+        $this->phone = $phone;
+        $this->updated_at = time();
+    }
+
+    public static function requestSignup(string $username, string $email, string $password): self
+    {
+        $user = new User();
         $user->username = $username;
         $user->email = $email;
         $user->setPassword($password);
         $user->created_at = time();
         $user->status = self::STATUS_WAIT;
-        $user->email_confirm_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $user->email_confirm_token = Yii::$app->security->generateRandomString();
         $user->generateAuthKey();
+        $user->recordEvent(new UserSignUpRequested($user));
         return $user;
     }
 
-    public function confirmSignup() : void
+    public function confirmSignup(): void
     {
-        if (!$this->isWait()){
+        if (!$this->isWait()) {
             throw new \DomainException('User is already active.');
         }
         $this->status = self::STATUS_ACTIVE;
         $this->email_confirm_token = null;
+        $this->recordEvent(new UserSignUpConfirmed($this));
     }
 
-    /**
-     * @param $network
-     * @param $identity
-     * @return User
-     *
-     */
     public static function signupByNetwork($network, $identity): self
     {
         $user = new User();
@@ -96,10 +99,6 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
-    /**
-     * @param $network
-     * @param $identity
-     */
     public function attachNetwork($network, $identity): void
     {
         $networks = $this->networks;
@@ -137,14 +136,31 @@ class User extends ActiveRecord implements IdentityInterface
         throw new \DomainException('Item is not found.');
     }
 
-    public function isActive() :bool
+    public function requestPasswordReset(): void
     {
-        return $this->status === self::STATUS_ACTIVE;
+        if (!empty($this->password_reset_token) && self::isPasswordResetTokenValid($this->password_reset_token)) {
+            throw new \DomainException('Password resetting is already requested.');
+        }
+        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-    public function isWait() :bool
+    public function resetPassword($password): void
+    {
+        if (empty($this->password_reset_token)) {
+            throw new \DomainException('Password resetting is not requested.');
+        }
+        $this->setPassword($password);
+        $this->password_reset_token = null;
+    }
+
+    public function isWait(): bool
     {
         return $this->status === self::STATUS_WAIT;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
     }
 
     public function getNetworks(): ActiveQuery
@@ -158,7 +174,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function tableName()
     {
@@ -166,15 +182,15 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function behaviors()
     {
         return [
             TimestampBehavior::className(),
             [
-                'class'     => SaveRelationsBehavior::className(),
-                'relations' => ['networks','wishlistItems'],
+                'class' => SaveRelationsBehavior::className(),
+                'relations' => ['networks', 'wishlistItems'],
             ],
         ];
     }
@@ -184,22 +200,6 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             self::SCENARIO_DEFAULT => self::OP_ALL,
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function findIdentity($id)
-    {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
 
     /**
@@ -249,30 +249,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-        return $this->getPrimaryKey();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
-
-    /**
      * Validates password
      *
      * @param string $password password to validate
@@ -299,30 +275,5 @@ class User extends ActiveRecord implements IdentityInterface
     private function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
-    }
-
-    /**
-     * Generates new password reset token
-     */
-    public function generatePasswordResetToken()
-    {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
-    }
-
-    public function requestPasswordReset()
-    {
-        if (!empty($this->password_reset_token) && self::isPasswordResetTokenValid($this->password_reset_token)) {
-            throw new \DomainException('Password resetting is already requested.');
-        }
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
-    }
-
-    public function resetPassword(string $password) :void
-    {
-        if (empty($this->password_reset_token)) {
-            throw new \DomainException('Password resetting is not requested.');
-        }
-        $this->setPassword($password);
-        $this->password_reset_token = null;
     }
 }

@@ -14,6 +14,7 @@ use shop\cart\cost\calculator\DynamicCost;
 use shop\cart\cost\calculator\SimpleCost;
 use shop\cart\storage\HybridStorage;
 use shop\cart\storage\SessionStorage;
+use shop\dispatchers\SimpleEventDispatcher;
 use shop\readModels\Shop\CategoryReadRepository;
 use shop\useCases\auth\PasswordResetService;
 use shop\useCases\auth\SignUpService;
@@ -75,6 +76,37 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(YandexMarket::class, [], [
             new ShopInfo($app->name, $app->name, $app->params['frontendHostInfo']),
         ]);
+
+        $container->setSingleton(Newsletter::class, function () use ($app) {
+            return new MailChimp(
+                new \DrewM\MailChimp\MailChimp($app->params['mailChimpKey']),
+                $app->params['mailChimpListId']
+            );
+        });
+
+        $container->setSingleton(SmsSender::class, function () use ($app) {
+            return new LoggedSender(
+                new SmsRu($app->params['smsRuKey']),
+                \Yii::getLogger()
+            );
+        });
+
+
+        $container->setSingleton(SimpleEventDispatcher::class, function (Container $container) {
+            return new SimpleEventDispatcher($container, [
+                UserSignUpRequested::class => [UserSignupRequestedListener::class],
+                UserSignUpConfirmed::class => [UserSignupConfirmedListener::class],
+                ProductAppearedInStock::class => [ProductAppearedInStockListener::class],
+                EntityPersisted::class => [
+                    ProductSearchPersistListener::class,
+                    CategoryPersistenceListener::class,
+                ],
+                EntityRemoved::class => [
+                    ProductSearchRemoveListener::class,
+                    CategoryPersistenceListener::class,
+                ],
+            ]);
+        });
 
 
 //        $container->set(CategoryUrlRule::class,[],[

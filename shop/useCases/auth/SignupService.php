@@ -3,7 +3,6 @@
 namespace shop\useCases\auth;
 
 use shop\access\Rbac;
-use shop\dispatchers\EventDispatcher;
 use shop\entities\User\User;
 use shop\forms\auth\SignupForm;
 use shop\repositories\UserRepository;

@@ -5,7 +5,9 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-//    'bootstrap' => 'common\bootstrap\SetUP',
+    'bootstrap' => [
+        'queue',
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -17,6 +19,10 @@ return [
             'itemChildTable' => '{{%auth_item_children}}',
             'assignmentTable' => '{{%auth_assignments}}',
             'ruleTable' => '{{%auth_rules}}',
+        ],
+        'queue' => [
+            'class' => 'zhuravljov\yii\queue\redis\Queue',
+            'as log' => 'zhuravljov\yii\queue\LogBehavior',
         ],
     ],
 ];

@@ -38,7 +38,8 @@
         "yii-cms/yii2-robokassa": "^1.1",
         "phpoffice/phpexcel": "^1.8",
         "fishvision/yii2-migrate": "^1.0",
-        "drewm/mailchimp-api": "^2.4"
+        "drewm/mailchimp-api": "^2.4",
+        "yiisoft/yii2-redis": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

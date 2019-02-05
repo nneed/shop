@@ -91,6 +91,7 @@ class SetUp implements BootstrapInterface
             );
         });
 
+        $container->setSingleton(EventDispatcher::class, DeferredEventDispatcher::class);
 
         $container->setSingleton(SimpleEventDispatcher::class, function (Container $container) {
             return new SimpleEventDispatcher($container, [

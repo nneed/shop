@@ -14,7 +14,9 @@ use shop\cart\cost\calculator\DynamicCost;
 use shop\cart\cost\calculator\SimpleCost;
 use shop\cart\storage\HybridStorage;
 use shop\cart\storage\SessionStorage;
+use shop\dispatchers\DeferredEventDispatcher;
 use shop\dispatchers\SimpleEventDispatcher;
+use shop\jobs\AsyncEventJobHandler;
 use shop\readModels\Shop\CategoryReadRepository;
 use shop\useCases\auth\PasswordResetService;
 use shop\useCases\auth\SignUpService;
@@ -91,6 +93,10 @@ class SetUp implements BootstrapInterface
             );
         });
 
+        $container->setSingleton(DeferredEventDispatcher::class, function (Container $container) {
+            return new DeferredEventDispatcher(new AsyncEventDispatcher($container->get(Queue::class)));
+        });
+
         $container->setSingleton(EventDispatcher::class, DeferredEventDispatcher::class);
 
         $container->setSingleton(SimpleEventDispatcher::class, function (Container $container) {
@@ -109,7 +115,9 @@ class SetUp implements BootstrapInterface
             ]);
         });
 
-
+        $container->setSingleton(AsyncEventJobHandler::class, [], [
+            Instance::of(SimpleEventDispatcher::class)
+        ]);
 //        $container->set(CategoryUrlRule::class,[],[
 //            yii\di\Instance::of(CategoryReadRepository::class),
 //            yii\di\Instance::of(yii\caching\Cache::class),
